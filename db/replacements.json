@@ -7458,16 +7458,6 @@
       "ReplacementSteamId": "2310043014",
       "SteamId": "1944229762"
     },
-    "1947487170": {
-      "Author": "Holgast",
-      "ModId": "Hol.StoneButcher",
-      "ModName": "Make Butcher Tables from Stone",
-      "ReplacementAuthor": "velcroboy333",
-      "ReplacementModId": "MakeButcherTablesFromStone.velcroboy333",
-      "ReplacementName": "Make Butcher Tables from Stone(continued)",
-      "ReplacementSteamId": "2094238534",
-      "SteamId": "1947487170"
-    },
     "1948437040": {
       "Author": "JomoKiN",
       "ModId": "JomoKiN.RimworldColoniesEvolvedCORE",
@@ -10126,16 +10116,6 @@
       "Versions": "1.1,1.2,1.3",
       "ReplacementVersions": "1.1,1.2,1.3,1.4,1.5"
     },
-    "2136247863": {
-      "Author": "ImSoul",
-      "ModId": "iiMSoul.ThermoLily",
-      "ModName": "ThermoLily",
-      "ReplacementAuthor": "Zaljerem",
-      "ReplacementModId": "zal.thermolily",
-      "ReplacementName": "ThermoLily (Continued)",
-      "ReplacementSteamId": "3132068158",
-      "SteamId": "2136247863"
-    },
     "2136753617": {
       "Author": "Baad",
       "ModId": "eBae.NoQuestsWithoutComms",
@@ -11468,16 +11448,6 @@
       "Versions": "1.1,1.2",
       "ReplacementVersions": "1.3,1.4,1.5"
     },
-    "2296557502": {
-      "Author": "Windows XP",
-      "ModId": "WindowsXP.TradeShipsNoMatterWhat",
-      "ModName": "Trade Ships No Matter What",
-      "ReplacementAuthor": "Zaljerem",
-      "ReplacementModId": "zal.tradeshipsnomatterwhat",
-      "ReplacementName": "Trade Ships No Matter What (Continued)",
-      "ReplacementSteamId": "3278858782",
-      "SteamId": "2296557502"
-    },
     "2303801187": {
       "Author": "travhimself",
       "ModId": "travhimself.quivermorebows",
@@ -12579,18 +12549,6 @@
       "SteamId": "2460608469",
       "Versions": "1.0,1.1,1.2",
       "ReplacementVersions": "1.3,1.4,1.5"
-    },
-    "2460833332": {
-      "Author": "Noodles",
-      "ModId": "noodlesking.MorePsycasts",
-      "ModName": "More Psycasts",
-      "ReplacementAuthor": "Noodles",
-      "ReplacementModId": "noodlesking.MorePsycastsCode",
-      "ReplacementName": "More Psycasts (Code)",
-      "ReplacementSteamId": "3427661187",
-      "SteamId": "2460833332",
-      "Versions": "1.2,1.3,1.4",
-      "ReplacementVersions": "1.2,1.3,1.4"
     },
     "2461634904": {
       "Author": "lilwhitemouse",
@@ -14199,16 +14157,6 @@
       "SteamId": "2604132286",
       "Versions": "1.3,1.4",
       "ReplacementVersions": "1.3,1.4,1.5"
-    },
-    "2605097164": {
-      "Author": "Trokare",
-      "ModId": "Trokare.Factions.TheFirm",
-      "ModName": "The Firm",
-      "ReplacementAuthor": "Zaljerem",
-      "ReplacementModId": "zal.thefirm",
-      "ReplacementName": "The Firm (Continued)",
-      "ReplacementSteamId": "2984613180",
-      "SteamId": "2605097164"
     },
     "2605358686": {
       "Author": "busted_bunny",
@@ -16864,18 +16812,6 @@
       "ReplacementSteamId": "3265314046",
       "SteamId": "2891664508",
       "Versions": "1.3,1.4",
-      "ReplacementVersions": "1.5"
-    },
-    "2891975564": {
-      "Author": "bradson",
-      "ModId": "bs.xenotypespawncontrol",
-      "ModName": "Xenotype Spawn Control",
-      "ReplacementAuthor": "Swampy Bogbeard",
-      "ReplacementModId": "bs.xenotypespawncontrol",
-      "ReplacementName": "Xenotype Spawn Control 1.5 Updated",
-      "ReplacementSteamId": "3411568951",
-      "SteamId": "2891975564",
-      "Versions": "1.4",
       "ReplacementVersions": "1.5"
     },
     "2892012512": {
