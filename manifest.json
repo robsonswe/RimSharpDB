@@ -1,0 +1,18 @@
+﻿{
+    "version":  "1.0.0",
+    "notes":  "Initial manifest generation.",
+    "files":  {
+                  "rules":  {
+                                "path":  "db/rules.json",
+                                "sha":  "70B5E3D8E8BD8C8883A7A2D6E573A6E09A696F528CD709CA9CF85CE4CB0EBAB4"
+                            },
+                  "replacements":  {
+                                       "path":  "db/replacements.json",
+                                       "sha":  "8B1D3A036A79090165CF22256C274A08E844C99D53D78B928E3977F48BFAED13"
+                                   },
+                  "dictionary":  {
+                                     "path":  "db/db.json",
+                                     "sha":  "4DBC1823481F54DB964FD8F2CD87CC250571959D2A9387F55C8FB8D66876F12B"
+                                 }
+              }
+}

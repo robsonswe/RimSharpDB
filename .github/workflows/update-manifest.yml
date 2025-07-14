@@ -1,0 +1,43 @@
+name: 'Update Data Manifest'
+
+# This action runs ONLY when a push happens to the main branch
+# that includes changes inside the 'db/' folder.
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'db/**.json'
+
+permissions:
+  contents: write # This gives the action permission to write back to the repo
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout Repository'
+        uses: actions/checkout@v4
+        with:
+          # We need to fetch the full history to get the last commit message
+          fetch-depth: 0 
+
+      - name: 'Automate Manifest Versioning'
+        # This step runs a PowerShell script to update the manifest
+        # PowerShell is cross-platform and available on GitHub runners
+        run: |
+          ./.github/workflows/update-manifest.ps1
+
+      - name: 'Commit and Push Manifest'
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          # Check if there are any changes to commit
+          if [[ -n $(git status --porcelain manifest.json) ]]; then
+            git add manifest.json
+            git commit -m "ci: Update manifest.json to new version"
+            git push
+            echo "Manifest.json was updated and pushed."
+          else
+            echo "No changes to manifest.json needed."
+          fi
