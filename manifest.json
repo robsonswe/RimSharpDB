@@ -1,18 +1,22 @@
-﻿{
-    "version":  "1.0.0",
-    "notes":  "Initial manifest generation.",
-    "files":  {
-                  "rules":  {
-                                "path":  "db/rules.json",
-                                "sha":  "70B5E3D8E8BD8C8883A7A2D6E573A6E09A696F528CD709CA9CF85CE4CB0EBAB4"
-                            },
-                  "replacements":  {
-                                       "path":  "db/replacements.json",
-                                       "sha":  "8B1D3A036A79090165CF22256C274A08E844C99D53D78B928E3977F48BFAED13"
-                                   },
-                  "dictionary":  {
-                                     "path":  "db/db.json",
-                                     "sha":  "4DBC1823481F54DB964FD8F2CD87CC250571959D2A9387F55C8FB8D66876F12B"
-                                 }
-              }
+{
+  "version": "1.0.1",
+  "notes": [
+    "Merge pull request #1 from robsonswe/test-updates",
+    "",
+    "Updated json files and adjustment obsolete replacement checker"
+  ],
+  "files": {
+    "rules": {
+      "path": "db/rules.json",
+      "sha": "B4EAC33473CF4C1976F265057D91B7EDA3CB29688A5D749F236AC49FF3042DEE"
+    },
+    "replacements": {
+      "path": "db/replacements.json",
+      "sha": "3FC679AFB21C7F77B50EBC0E3D48C076AEE7272EA050E1B6673550A97434FF85"
+    },
+    "dictionary": {
+      "path": "db/db.json",
+      "sha": "826E315B7151763187502E291009465E99742E0FC9CA55B6279E606183C66733"
+    }
+  }
 }
