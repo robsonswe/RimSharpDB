@@ -47,7 +47,7 @@ def maintain_replacements_file(replacements_path: Path, db_path: Path):
     The updated data then overwrites the original replacements.json file.
 
     An entry is considered obsolete if the original mod's version is
-    the same as or newer than the replacement's version.
+    strictly higher than the replacement's version.
     """
     print("--- Starting Maintenance Script for replacements.json ---")
 
@@ -105,14 +105,14 @@ def maintain_replacements_file(replacements_path: Path, db_path: Path):
         original_max_version = get_max_version_key_from_list(original_versions)
         replacement_max_version = get_max_version_key_from_list(replacement_versions)
 
-        # The rule: An entry is obsolete if the original is newer or the same version.
-        if original_max_version >= replacement_max_version:
+        # The rule: An entry is obsolete if the original is strictly newer than the replacement.
+        if original_max_version > replacement_max_version:
             original_version_str = ".".join(map(str, original_max_version))
             replacement_version_str = ".".join(map(str, replacement_max_version))
             obsolete_mods_info.append({
                 "id": original_steam_id,
                 "name": original_mod_name,
-                "reason": f"Original version ({original_version_str}) >= Replacement version ({replacement_version_str})."
+                "reason": f"Original version ({original_version_str}) > Replacement version ({replacement_version_str})."
             })
         else:
             kept_mod_entries[original_steam_id] = replacement_info
