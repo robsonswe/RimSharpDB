@@ -99,10 +99,19 @@ class LoadBottomRule:
     def to_dict(self):
         return {"value": self.Value, "comment": self.Comment}
 
+class LoadTopRule:
+    def __init__(self, value: bool = False, comment: Union[str, List[str]] = ""):
+        self.Value = value
+        self.Comment = [comment] if isinstance(comment, str) else comment
+
+    def to_dict(self):
+        return {"value": self.Value, "comment": self.Comment}
+
 class ModRule:
     def __init__(self):
         self.LoadBefore: Dict[str, ModDependencyRule] = {}
         self.LoadAfter: Dict[str, ModDependencyRule] = {}
+        self.LoadTop: Optional[LoadTopRule] = None
         self.LoadBottom: Optional[LoadBottomRule] = None
         self.Incompatibilities: Dict[str, ModIncompatibilityRule] = {}
         self.SupportedVersions: List[str] = []
@@ -114,10 +123,14 @@ class ModRule:
             rule.LoadBefore = {k: ModDependencyRule(name=v.get("name", []), comment=v.get("comment", [])) for k, v in data["loadBefore"].items()}
         if "loadAfter" in data:
             rule.LoadAfter = {k: ModDependencyRule(name=v.get("name", []), comment=v.get("comment", [])) for k, v in data["loadAfter"].items()}
+        if "loadTop" in data and data["loadTop"] is not None:
+            rule.LoadTop = LoadTopRule(value=data["loadTop"].get("value", False), comment=data["loadTop"].get("comment", []))
         if "loadBottom" in data and data["loadBottom"] is not None:
             rule.LoadBottom = LoadBottomRule(value=data["loadBottom"].get("value", False), comment=data["loadBottom"].get("comment", []))
-        if "incompatibilities" in data:
-            rule.Incompatibilities = {k: ModIncompatibilityRule(hard_incompatibility=v.get("hardIncompatibility", False), comment=v.get("comment", []), name=v.get("name", [])) for k, v in data["incompatibilities"].items()}
+        # Prefer the upstream "incompatibleWith" key; fall back to the legacy "incompatibilities" key for old local files
+        incompatibilities_data = data.get("incompatibleWith", data.get("incompatibilities"))
+        if incompatibilities_data is not None:
+            rule.Incompatibilities = {k: ModIncompatibilityRule(hard_incompatibility=v.get("hardIncompatibility", False), comment=v.get("comment", []), name=v.get("name", [])) for k, v in incompatibilities_data.items()}
         if "supportedVersions" in data and data["supportedVersions"] is not None:
             # Handle StringOrStringListConverter behavior
             versions = data["supportedVersions"]
@@ -128,8 +141,9 @@ class ModRule:
         data = {}
         if self.LoadBefore: data["loadBefore"] = {k: v.to_dict() for k, v in self.LoadBefore.items()}
         if self.LoadAfter: data["loadAfter"] = {k: v.to_dict() for k, v in self.LoadAfter.items()}
+        if self.LoadTop: data["loadTop"] = self.LoadTop.to_dict()
         if self.LoadBottom: data["loadBottom"] = self.LoadBottom.to_dict()
-        if self.Incompatibilities: data["incompatibilities"] = {k: v.to_dict() for k, v in self.Incompatibilities.items()}
+        if self.Incompatibilities: data["incompatibleWith"] = {k: v.to_dict() for k, v in self.Incompatibilities.items()}
         if self.SupportedVersions: data["supportedVersions"] = self.SupportedVersions # Python handles list -> JSON array
         return data
 
@@ -244,10 +258,18 @@ class RulesManagerApp:
         self.supported_versions_text = tk.Text(sv_frame, height=3, wrap=tk.WORD)
         self.supported_versions_text.pack(fill=tk.BOTH, expand=True)
 
+        # Load Top Tab
+        lt_frame = ttk.Frame(notebook, padding="10"); notebook.add(lt_frame, text="Load Top")
+        self.load_top_value_var = tk.BooleanVar(value=False)
+        ttk.Checkbutton(lt_frame, text="Treat this mod as top-tier (tier 1) - load at the top of the load order", variable=self.load_top_value_var).pack(anchor="w", pady=(0,5))
+        ttk.Label(lt_frame, text="Comment (optional, comma-separated):").pack(anchor="w", pady=(5,0))
+        self.load_top_comment_text = tk.Text(lt_frame, height=3, wrap=tk.WORD)
+        self.load_top_comment_text.pack(fill=tk.BOTH, expand=True)
+
         # Load Bottom Tab
         lb_frame = ttk.Frame(notebook, padding="10"); notebook.add(lb_frame, text="Load Bottom")
         self.load_bottom_value_var = tk.BooleanVar(value=False)
-        ttk.Checkbutton(lb_frame, text="Load this mod at the bottom of the load order", variable=self.load_bottom_value_var).pack(anchor="w", pady=(0,5))
+        ttk.Checkbutton(lb_frame, text="Treat this mod as bottom-tier (tier 3) - load at the bottom of the load order", variable=self.load_bottom_value_var).pack(anchor="w", pady=(0,5))
         ttk.Label(lb_frame, text="Comment (optional, comma-separated):").pack(anchor="w", pady=(5,0))
         self.load_bottom_comment_text = tk.Text(lb_frame, height=3, wrap=tk.WORD)
         self.load_bottom_comment_text.pack(fill=tk.BOTH, expand=True)
@@ -379,6 +401,15 @@ class RulesManagerApp:
         self.supported_versions_text.delete("1.0", tk.END)
         self.supported_versions_text.insert(tk.END, ", ".join(rule.SupportedVersions))
 
+        # Load Top
+        if rule.LoadTop:
+            self.load_top_value_var.set(rule.LoadTop.Value)
+            self.load_top_comment_text.delete("1.0", tk.END)
+            self.load_top_comment_text.insert(tk.END, ", ".join(rule.LoadTop.Comment))
+        else:
+            self.load_top_value_var.set(False)
+            self.load_top_comment_text.delete("1.0", tk.END)
+
         # Load Bottom
         if rule.LoadBottom:
             self.load_bottom_value_var.set(rule.LoadBottom.Value)
@@ -414,6 +445,8 @@ class RulesManagerApp:
         self.mod_name_var.set("N/A"); self.mod_authors_var.set("N/A")
         self.mod_versions_var.set("N/A"); self.mod_published_var.set("N/A")
         self.supported_versions_text.delete("1.0", tk.END)
+        self.load_top_value_var.set(False)
+        self.load_top_comment_text.delete("1.0", tk.END)
         self.load_bottom_value_var.set(False)
         self.load_bottom_comment_text.delete("1.0", tk.END)
         self.loadBefore_tree.delete(*self.loadBefore_tree.get_children())
@@ -434,6 +467,14 @@ class RulesManagerApp:
 
         # Collect data from UI back into self.current_mod_rule
         self.current_mod_rule.SupportedVersions = [s.strip() for s in self.supported_versions_text.get("1.0", tk.END).strip().split(',') if s.strip()]
+
+        if self.load_top_value_var.get():
+            self.current_mod_rule.LoadTop = LoadTopRule(
+                value=True,
+                comment=[s.strip() for s in self.load_top_comment_text.get("1.0", tk.END).strip().split(',') if s.strip()]
+            )
+        else:
+            self.current_mod_rule.LoadTop = None
 
         if self.load_bottom_value_var.get():
             self.current_mod_rule.LoadBottom = LoadBottomRule(
