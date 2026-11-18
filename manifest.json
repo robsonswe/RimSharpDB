@@ -1,9 +1,10 @@
 {
-  "version": "1.0.1",
+  "version": "1.0.2",
   "notes": [
-    "Merge pull request #1 from robsonswe/test-updates",
+    "Refresh official versions from Steam Workshop Database",
     "",
-    "Updated json files and adjustment obsolete replacement checker"
+    "Add tools/versions_refresh.py: bulk-refreshes the curated dictionary's per-entry versions from a steamDB.json snapshot (match by publishedfileid first, then unique packageId; only touches entries with non-empty official tags; ambiguous matches skipped). Ran against the 2026-09-25 snapshot: 2543 entries updated with fresh official workshop tags (mostly 1.6/1.7 additions), 23400 packageIds preserved, everything else untouched.",
+    ""
   ],
   "files": {
     "rules": {
@@ -16,7 +17,7 @@
     },
     "dictionary": {
       "path": "db/db.json",
-      "sha": "826E315B7151763187502E291009465E99742E0FC9CA55B6279E606183C66733"
+      "sha": "2103A34F497CA17249C30440B4CBE38DE66D94E22D7C6DBFD548FFDF00EDBC28"
     }
   }
 }
